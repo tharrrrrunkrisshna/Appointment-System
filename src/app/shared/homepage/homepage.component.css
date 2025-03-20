@@ -1,0 +1,83 @@
+
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 20px 0;
+  background: white;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+.hero h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+/* Buttons */
+.btn-custom {
+  font-size: 18px;
+  padding: 12px 32px;
+  border-radius: 8px;  /* Slightly rounded edges */
+  transition: all 0.3s ease;
+  border: none;
+  color: white;
+  margin: 10px; /* Adds space between buttons */
+  display: inline-block;
+}
+
+.btn-login{
+  background: #000;
+}
+.btn-login:hover {
+  background: #333;
+}
+
+.btn-signup{
+  background: #007bff;
+}
+.btn-signup:hover {
+  background: #0056b3;
+}
+
+/* Features Section */
+.features {
+  text-align: center;
+  padding: 60px 20px;
+}
+.feature-box {
+  padding: 20px;
+}
+.feature-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.feature-text {
+  font-size: 16px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #333;
+  color: white;
+  margin-top: 50px;
+}

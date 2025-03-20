@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Edit Appointments</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Doctor</th>
+          <th>Time Slot</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appointment of appointments">
+          <td>Doctor {{ appointment.doctorID }}</td>
+          <td>{{ appointment.timeSlot }}</td>
+          <td>
+            <button class="btn-edit" (click)="editAppointment(appointment)">Edit</button>
+            <button class="btn-cancel" (click)="cancelAppointment(appointment.appointmentID)">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

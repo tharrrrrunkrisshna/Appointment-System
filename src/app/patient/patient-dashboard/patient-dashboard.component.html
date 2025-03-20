@@ -1,0 +1,31 @@
+<app-navbar />
+<div class="container-fluid">
+  <div class="row">
+    <!-- User Profile Section (Fixed Left Side) -->
+    <div class="col-md-3">
+      <div class="card profile-card">
+        <div class="card-body">
+          <h5 class="card-title">Profile</h5>
+          <app-profile [user]="user"></app-profile>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="col-md-9">
+      <div class="patient-features">
+        <h1>Patient Dashboard</h1>
+        <!-- <button class="btn btn-primary" (click)="gotoAppointmentPage()">Book Appointment</button> -->
+        <!-- <button class="btn btn-primary" (click)="goToEditAppointments()">Manage Appointments</button> -->       
+          <div class="container">
+            <button class="btn-edit" (click)="goToEditAppointments()">Edit Appointments</button>
+          
+            <h2>Available Doctors</h2>
+            <div class="doctor-list">
+              <app-doctor-card *ngFor="let doctor of doctors" [doctor]="doctor" [user]="user"></app-doctor-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
