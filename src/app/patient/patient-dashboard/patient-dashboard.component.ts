@@ -16,33 +16,44 @@ import { NavbarComponent } from "../../shared/navbar/navbar.component";
   styleUrl: './patient-dashboard.component.css'
 })
 export class PatientDashboardComponent implements OnInit {
-  user: UserData={};
-  appointments: any[] = [];
+  user: UserData = {};
   doctors: any[] = [];
+  filteredDoctors: any[] = [];
+  searchTerm: string = '';
 
   constructor(private router: Router, private userService: UserService) {
     const storedUser = localStorage.getItem('loggedInUser');
-    if(storedUser){
+    if (storedUser) {
       this.user = JSON.parse(storedUser);
-    }else{
-      alert('Session expired, Please login again.')
+    } else {
+      alert('Session expired, Please login again.');
     }
   }
 
   ngOnInit(): void {
-    
     this.fetchDoctors();
   }
-
 
   fetchDoctors(): void {
     this.userService.getUsersByRole('doctor').subscribe(
       (data) => {
         this.doctors = data;
+        this.filteredDoctors = data; // Initially, show all doctors
       },
       (error) => {
         console.error('Error fetching doctors', error);
       }
+    );
+  }
+
+  filterDoctors(): void {
+    if (!this.searchTerm.trim()) {
+      this.filteredDoctors = this.doctors; // Show all doctors if search is empty
+      return;
+    }
+    
+    this.filteredDoctors = this.doctors.filter((doctor) =>
+      doctor.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 

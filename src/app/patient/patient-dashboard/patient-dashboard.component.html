@@ -1,7 +1,7 @@
 <app-navbar />
 <div class="container-fluid">
   <div class="row">
-    <!-- User Profile Section (Fixed Left Side) -->
+    <!-- User Profile Section -->
     <div class="col-md-3">
       <div class="card profile-card">
         <div class="card-body">
@@ -15,14 +15,23 @@
     <div class="col-md-9">
       <div class="patient-features">
         <h1>Patient Dashboard</h1>
-        <!-- <button class="btn btn-primary" (click)="gotoAppointmentPage()">Book Appointment</button> -->
-        <!-- <button class="btn btn-primary" (click)="goToEditAppointments()">Manage Appointments</button> -->       
-          <div class="container">
+        
+        <div class="container">
+          <div class="dashboard-header">
             <button class="btn-edit" (click)="goToEditAppointments()">Edit Appointments</button>
-          
-            <h2>Available Doctors</h2>
-            <div class="doctor-list">
-              <app-doctor-card *ngFor="let doctor of doctors" [doctor]="doctor" [user]="user"></app-doctor-card>
+            <!-- Search Input Field -->
+            <input
+              type="text"
+              class="form-control search-bar"
+              placeholder="Search doctors by name..."
+              [(ngModel)]="searchTerm"
+              (input)="filterDoctors()"
+            />
+          </div>
+
+          <h2>Available Doctors</h2>
+          <div class="doctor-list">
+            <app-doctor-card *ngFor="let doctor of filteredDoctors" [doctor]="doctor" [user]="user"></app-doctor-card>
           </div>
         </div>
       </div>

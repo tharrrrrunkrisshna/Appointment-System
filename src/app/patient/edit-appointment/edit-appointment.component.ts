@@ -14,16 +14,19 @@ export class EditAppointmentComponent implements OnInit {
     appointments: any[] = [];
   
     constructor(private router: Router, private appointmentService: AppointmentService) {
-      const navigation = this.router.getCurrentNavigation();
-      this.user = navigation?.extras.state?.['user'];
+      // const navigation = this.router.getCurrentNavigation();
+      // this.user = navigation?.extras.state?.['user'];
+
+      const storedUser = localStorage.getItem('loggedInUser');
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+    } else {
+      alert('Session expired, Please login again.');
+    }
+
     }
   
     ngOnInit(): void {
-      if (!this.user) {
-        alert('Invalid access! Returning to patient dashboard.');
-        this.router.navigate(['/patient']);
-        return;
-      }
       this.fetchAppointments();
     }
   
@@ -42,7 +45,7 @@ export class EditAppointmentComponent implements OnInit {
       if (confirm('Are you sure you want to cancel this appointment?')) {
         this.appointmentService.cancelAppointment(appointmentID).subscribe(() => {
           alert('Appointment canceled successfully.');
-          this.fetchAppointments(); // Refresh the list after canceling
+          this.fetchAppointments(); 
         });
       }
     }

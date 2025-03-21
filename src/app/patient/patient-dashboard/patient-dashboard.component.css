@@ -107,3 +107,19 @@ ul li {
   overflow-y: auto;
   padding-right: 10px;
 }
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds space between button and search bar */
+  margin-bottom: 15px;
+}
+
+.search-bar {
+  flex: 1; /* Makes search bar expand to available space */
+  max-width: 800px;
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
