@@ -60,4 +60,7 @@ export class PatientDashboardComponent implements OnInit {
   goToEditAppointments() {
     this.router.navigate(['appointment/edit'], { state: { user: this.user } });
   }
+  goToGetConsultations() {
+    this.router.navigate(['consultations/get'], { state: { user: this.user } });
+  }
 }

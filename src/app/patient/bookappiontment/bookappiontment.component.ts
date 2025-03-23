@@ -40,9 +40,11 @@ export class BookAppointmentComponent implements OnInit {
   }
 
   fetchAvailability() {
+    const today = new Date(); // Get today's date
+  
     this.availabilityService.getAvailabilityByDoctor(this.doctor.userID).subscribe(
       (data) => {
-        this.availabilities = data;
+        this.availabilities = data.filter(avail => new Date(avail.date) >= today);
       },
       (error) => {
         console.error('Error fetching availability:', error);

@@ -31,9 +31,14 @@ export class EditAppointmentComponent implements OnInit {
     }
   
     fetchAppointments() {
+      const now = new Date(); // Get current date and time
+    
       this.appointmentService.getAppointmentsByPatient(this.user.userID).subscribe(
         (data) => {
-          this.appointments = data.filter(app => app.status === 'Booked'); // Show only booked appointments
+          this.appointments = data.filter(app => {
+            const appointmentDateTime = new Date(app.timeSlot);
+            return app.status === 'Booked' && appointmentDateTime >= now;
+          });
         },
         (error) => {
           console.error('Error fetching appointments:', error);

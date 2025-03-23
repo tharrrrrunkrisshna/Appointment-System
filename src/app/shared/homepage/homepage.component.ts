@@ -6,7 +6,7 @@ import { Router, RouterModule} from '@angular/router';
 @Component({
   selector: 'app-homepage',
   imports: [CommonModule,FormsModule,RouterModule],
-  templateUrl: './homepage.component.html',
+  templateUrl:'./homepage.component.html',
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {

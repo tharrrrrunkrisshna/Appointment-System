@@ -117,7 +117,7 @@ ul li {
 
 .search-bar {
   flex: 1; /* Makes search bar expand to available space */
-  max-width: 800px;
+  max-width: 500px;
   padding: 8px;
   margin-bottom: 20px;
   border-radius: 5px;

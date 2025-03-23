@@ -14,15 +14,19 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class PastAppointmentsComponent implements OnInit {
-  user: UserData;
+  user!: UserData;
   appointments: AppointmentData[] = [];
 
   constructor(
     private router: Router,
     private appointmentService: AppointmentService
   ) {
-    const navigation = this.router.getCurrentNavigation();
-    this.user = navigation?.extras.state?.['user'];
+    const storedUser = localStorage.getItem('loggedInUser');
+    if(storedUser){
+      this.user = JSON.parse(storedUser);
+    }else{
+      alert('Session expired, Please login again.')
+    }
   }
 
   ngOnInit(): void {
@@ -48,6 +52,18 @@ export class PastAppointmentsComponent implements OnInit {
       },
       (error) => {
         console.error('Error cancelling appointment', error);
+      }
+    );
+  }
+
+  completeAppointment(appointmentID: number): void {
+    this.appointmentService.completeAppointment(appointmentID).subscribe(
+      (data: AppointmentData) => {
+        console.log('Appointment completed:', data);
+        this.loadAppointments(); 
+      },
+      (error) => {
+        console.error('Error Completing appointment', error);
       }
     );
   }

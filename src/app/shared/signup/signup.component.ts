@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../model/user.model';
 import { UserService } from '../../service/user/user.service';
 import { Router, RouterModule } from '@angular/router';
@@ -8,27 +8,43 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
-  imports: [CommonModule,FormsModule,RouterModule],
+  imports: [CommonModule,FormsModule,RouterModule,ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
-export class SignupComponent {
-  @Input() user: User;
-  msg: String = '';
-  visible: boolean = false;
+export class SignupComponent implements OnInit {
+  signupForm!: FormGroup; // Reactive Form Group
 
-  constructor(private service: UserService, private router: Router, private toastr: ToastrService) {
-    this.user = new User();
+  constructor(
+    private fb: FormBuilder,
+    private service: UserService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
+
+  ngOnInit(): void {
+    // Create reactive form with default value for role
+    this.signupForm = this.fb.group({
+      name: ['', Validators.required],
+      role: ['Patient', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   addUser() {
-    this.service.addUser(this.user).subscribe(
+    if (this.signupForm.invalid) {
+      return;
+    }
+    const user: User = this.signupForm.value;
+    this.service.addUser(user).subscribe(
       data => {
-        this.toastr.success('Sign-up successful!'); // Success Toaster
+        this.toastr.success('Sign-up successful!');
         this.router.navigate(['login']);
       },
       error => {
-        this.toastr.error(error.error, 'Sign-up Failed'); // Error Toaster
+        this.toastr.error(error.error, 'Sign-up Failed');
       }
     );
   }

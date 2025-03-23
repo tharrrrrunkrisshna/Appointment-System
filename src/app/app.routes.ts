@@ -12,6 +12,7 @@ import { BookAppointmentComponent } from './patient/bookappiontment/bookappiontm
 import { EditAppointmentComponent } from './patient/edit-appointment/edit-appointment.component';
 import { UpdateappointmentComponent } from './patient/updateappointment/updateappointment.component';
 import { UpdateUserComponent } from './shared/update-user/update-user.component';
+import { GetConsultationsComponent } from './patient/get-consultations/get-consultations.component';
 
 
 export const routes: Routes = [
@@ -25,6 +26,7 @@ export const routes: Routes = [
     {path:'appointment/create',component:BookAppointmentComponent},
     {path:'appointment/edit',component:EditAppointmentComponent},
     {path:'consultation/create',component:AddConsultationComponent},
+    {path:'consultations/get',component:GetConsultationsComponent},
     {path:'appointment/get',component:PastAppointmentsComponent},
     {path:'appointment/update',component:UpdateappointmentComponent},
     {path:'user/update',component:UpdateUserComponent}

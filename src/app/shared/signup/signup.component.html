@@ -1,130 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Healthcare System</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
-    <style>
-        /* General Styles */
-        body {
-            background-color: #f4f7fc;
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* Centered Card */
-        .signup-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .signup-card {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-
-        /* Heading */
-        .signup-card h2 {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        /* Form Inputs */
-        .form-group label {
-            font-weight: bold;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            padding: 12px;
-        }
-
-        /* Sign-Up Button */
-        .btn-signup {
-            background-color: #007bff;
-            color: white;
-            font-size: 18px;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .btn-signup:hover {
-            background-color: #0056b3;
-        }
-
-        /* Already Have an Account? */
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .login-link a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="signup-container">
-        <div class="signup-card">
-            <h2>Create an Account</h2>
-            <form (ngSubmit)="addUser()">
-                <div class="form-group">
-                    <label for="signUpName">Full Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Enter your full name" required [(ngModel)]="user.name">
-                </div>
-
-                <div class="form-group">
-                    <label for="signUpRole">Role</label>
-                    <select class="form-control" name="role" required [(ngModel)]="user.role">
-                        <option value="Doctor">Doctor</option>
-                        <option value="Patient">Patient</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="signUpEmail">Email Address</label>
-                    <input type="email" class="form-control" name="email" placeholder="Enter your email" required [(ngModel)]="user.email">
-                </div>
-
-                <div class="form-group">
-                    <label for="signUpPhone">Phone Number</label>
-                    <input type="text" class="form-control" name="phone" placeholder="Enter your phone number" required [(ngModel)]="user.phone">
-                </div>
-
-                <div class="form-group">
-                    <label for="signUpPassword">Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Create a password" required [(ngModel)]="user.password">
-                </div>
-
-                <button type="submit" class="btn-signup">Sign Up</button>
-            </form>
-
-            <div class="login-link">
-                Already have an account? <a href="#" (click)="goToLogin()">Log in</a>
-            </div>
+<div class="signup-container">
+    <div class="signup-card">
+      <h2>Create an Account</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="addUser()">
+        <div class="form-group">
+          <label for="signUpName">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="signUpName"
+            formControlName="name"
+            placeholder="Enter your full name"
+            required>
+          <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="text-danger">
+            Name is required.
+          </div>
         </div>
+        <div class="form-group">
+          <label for="signUpRole">Role</label>
+          <select class="form-control" id="signUpRole" formControlName="role" required>
+            <option value="Doctor">Doctor</option>
+            <option value="Patient">Patient</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="signUpEmail">Email Address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="signUpEmail"
+            formControlName="email"
+            placeholder="Enter your email"
+            required>
+          <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">
+            Please enter a valid email.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="signUpPhone">Phone Number</label>
+          <input
+            type="text"
+            class="form-control"
+            id="signUpPhone"
+            formControlName="phone"
+            placeholder="Enter your phone number"
+            required>
+          <div *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched" class="text-danger">
+            Phone number is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="signUpPassword">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="signUpPassword"
+            formControlName="password"
+            placeholder="Create a password"
+            required>
+          <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">
+            Password is required.
+          </div>
+        </div>
+        <button type="submit" class="btn-signup" [disabled]="signupForm.invalid">Sign Up</button>
+      </form>
+      <div class="login-link">
+        Already have an account? <a href="#" (click)="goToLogin()">Log in</a>
+      </div>
     </div>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+  </div>

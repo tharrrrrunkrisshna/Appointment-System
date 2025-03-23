@@ -31,4 +31,8 @@ export class AppointmentService {
   updateAppointment(appointmentID: number, newTimeSlot: string) {
     return this.http.put(`${this.baseUrl}/update/${appointmentID}`, { timeSlot: newTimeSlot });
   }
+
+  completeAppointment(appointmentID:number):Observable<AppointmentData>{
+    return this.http.put<AppointmentData>(`${this.baseUrl}/completed/${appointmentID}`,{});
+  }
 }

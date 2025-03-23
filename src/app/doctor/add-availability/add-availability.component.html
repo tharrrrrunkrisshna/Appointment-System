@@ -3,7 +3,7 @@
 
   <div class="form-group">
     <label for="date">Select Date</label>
-    <input type="date" class="form-control" [(ngModel)]="availability.date" required>
+    <input type="date" class="form-control" [(ngModel)]="availability.date" required [min]="minDate">
   </div>
 
   <div class="form-group">

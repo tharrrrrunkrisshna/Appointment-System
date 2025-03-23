@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AvailabilityService } from '../../service/availability/availability.service';
 import { Availability } from '../../shared/model/availability.model';
@@ -12,14 +12,20 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './add-availability.component.html',
   styleUrl: './add-availability.component.css'
 })
-export class AddAvailabilityComponent {
+export class AddAvailabilityComponent implements OnInit{
 
   availability: Availability = {
     doctorID: 0,
     date: '',
     timeSlots: []
   };
+  minDate!: string;
 
+  ngOnInit() {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0]; // Format YYYY-MM-DD
+  }
+  
   availableTimeSlots: string[] = [
     '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM',
     '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM',
@@ -56,12 +62,25 @@ export class AddAvailabilityComponent {
   /** Toggles time slot selection, converts to 24-hour format, and highlights selected slots */
   toggleTimeSlot(slot: string) {
     const convertedSlot = this.convertTo24HourFormat(slot);
+    const selectedDate = new Date(this.availability.date);
+    const today = new Date();
+  
+    if (selectedDate.toDateString() === today.toDateString()) {
+      const [hour, minute] = convertedSlot.split(':').map(Number);
+      const selectedTimeInMinutes = hour * 60 + minute;
+      const currentTimeInMinutes = today.getHours() * 60 + today.getMinutes();
+  
+      if (selectedTimeInMinutes <= currentTimeInMinutes) {
+        this.toastr.error("Cannot select past time slots.");
+        return;
+      }
+    }
+  
     const index = this.availability.timeSlots.indexOf(convertedSlot);
-    
     if (index > -1) {
-      this.availability.timeSlots.splice(index, 1); // Remove if already selected
+      this.availability.timeSlots.splice(index, 1);
     } else {
-      this.availability.timeSlots.push(convertedSlot); // Add in HH:mm format
+      this.availability.timeSlots.push(convertedSlot);
     }
   }
 
