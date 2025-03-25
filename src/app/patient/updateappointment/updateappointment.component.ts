@@ -31,11 +31,25 @@ export class UpdateappointmentComponent implements OnInit {
   }
 
   fetchAvailability() {
-  this.doctorID=this.appointment.doctorID;
-  console.log(this.doctorID);
-    this.availabilityService.getAvailabilityByDoctor(Number(this.appointment.doctorID)).subscribe(
+    const today = new Date(); // Get today's date
+    const currentTime = today.getHours() + ':' + today.getMinutes(); // Get current time in HH:MM format
+ 
+    this.availabilityService.getAvailabilityByDoctor(this.appointment.doctorID).subscribe(
       (data) => {
-        this.availabilities = data;
+        this.availabilities = data.map(availability => {
+          const availabilityDate = new Date(availability.date);
+          if (availabilityDate > today) {
+            // If the date is in the future, keep all timeslots
+            return availability;
+          } else if (availabilityDate.toDateString() === today.toDateString()) {
+            // If the date is today, filter timeslots based on current time
+            availability.timeSlots = availability.timeSlots.filter(timeSlot => timeSlot > currentTime);
+            return availability;
+          }
+          // If the date is in the past, exclude the availability
+          return null;
+        }).filter(availability => availability !== null);
+        console.log(this.availabilities);
       },
       (error) => {
         console.error('Error fetching availability:', error);

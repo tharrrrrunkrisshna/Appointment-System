@@ -41,10 +41,24 @@ export class BookAppointmentComponent implements OnInit {
 
   fetchAvailability() {
     const today = new Date(); // Get today's date
-  
+    const currentTime = today.getHours() + ':' + today.getMinutes(); // Get current time in HH:MM format
+ 
     this.availabilityService.getAvailabilityByDoctor(this.doctor.userID).subscribe(
       (data) => {
-        this.availabilities = data.filter(avail => new Date(avail.date) >= today);
+        this.availabilities = data.map(availability => {
+          const availabilityDate = new Date(availability.date);
+          if (availabilityDate > today) {
+            // If the date is in the future, keep all timeslots
+            return availability;
+          } else if (availabilityDate.toDateString() === today.toDateString()) {
+            // If the date is today, filter timeslots based on current time
+            availability.timeSlots = availability.timeSlots.filter(timeSlot => timeSlot > currentTime);
+            return availability;
+          }
+          // If the date is in the past, exclude the availability
+          return null;
+        }).filter(availability => availability !== null);
+        console.log(this.availabilities);
       },
       (error) => {
         console.error('Error fetching availability:', error);
@@ -52,12 +66,23 @@ export class BookAppointmentComponent implements OnInit {
     );
   }
 
-  selectDate(availability: any) {
-    this.selectedDate = availability.date;
+selectDate(availability: any) {
+  this.selectedDate = availability.date;
+  const today = new Date();
+  const selectedDateObj = new Date(this.selectedDate);
+
+  if (selectedDateObj.toDateString() === today.toDateString()) {
+    const currentTimeInMinutes = today.getHours() * 60 + today.getMinutes();
+    this.selectedTimeSlots = availability.timeSlots.filter((slot:string) => {
+      const [hour, minute] = slot.split(':').map(Number);
+      return (hour * 60 + minute) > currentTimeInMinutes;
+    });
+  } else {
     this.selectedTimeSlots = availability.timeSlots;
-    this.selectedTime = ''; // Reset selected time
   }
 
+  this.selectedTime = ''; 
+}
   selectTime(time: string) {
     this.selectedTime = time;
   }
@@ -66,8 +91,8 @@ export class BookAppointmentComponent implements OnInit {
     if (!this.selectedDate || !this.selectedTime) return;
 
     const appointment: AppointmentData = {
-      patientID: this.user.userID,  // Use logged-in patient ID
-      doctorID: this.doctor.userID, // Use selected doctor ID
+      patientID: this.user.userID,
+      doctorID: this.doctor.userID,
       timeSlot: `${this.selectedDate}T${this.selectedTime}`,
       status: 'Booked'
     };
