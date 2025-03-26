@@ -13,22 +13,26 @@ import { EditAppointmentComponent } from './patient/edit-appointment/edit-appoin
 import { UpdateappointmentComponent } from './patient/updateappointment/updateappointment.component';
 import { UpdateUserComponent } from './shared/update-user/update-user.component';
 import { GetConsultationsComponent } from './patient/get-consultations/get-consultations.component';
+import { doctorGuard } from './guards/doctor/doctor.guard';
+import { patientGuard } from './guards/patient/patient.guard';
 
 
 export const routes: Routes = [
     {path:'',component:HomepageComponent},
     {path:'login',component:LoginComponent},
     {path:'signup',component:SignupComponent},
-    {path:'doctor',component:DoctorDashboardComponent},
-    {path:'patient',component:PatientDashboardComponent},
-    { path: 'availability/create', component: AddAvailabilityComponent },
-    { path: 'availability/edit', component: EditAvailabilityComponent },
-    {path:'appointment/create',component:BookAppointmentComponent},
-    {path:'appointment/edit',component:EditAppointmentComponent},
-    {path:'consultation/create',component:AddConsultationComponent},
-    {path:'consultations/get',component:GetConsultationsComponent},
-    {path:'appointment/get',component:PastAppointmentsComponent},
-    {path:'appointment/update',component:UpdateappointmentComponent},
-    {path:'user/update',component:UpdateUserComponent}
 
+    {path:'doctor',component:DoctorDashboardComponent,canActivate: [doctorGuard]},
+    {path:'availability/create', component: AddAvailabilityComponent,canActivate: [doctorGuard] },
+    {path:'availability/edit', component: EditAvailabilityComponent,canActivate: [doctorGuard] },
+    {path:'consultation/create',component:AddConsultationComponent,canActivate: [doctorGuard]},
+    {path:'appointment/get',component:PastAppointmentsComponent,canActivate:[doctorGuard]},
+
+    {path:'patient',component:PatientDashboardComponent,canActivate: [patientGuard]},
+    {path:'appointment/create',component:BookAppointmentComponent,canActivate: [patientGuard]},
+    {path:'appointment/edit',component:EditAppointmentComponent,canActivate: [patientGuard]},
+    {path:'consultations/get',component:GetConsultationsComponent,canActivate: [patientGuard]},
+    {path:'appointment/update',component:UpdateappointmentComponent,canActivate: [patientGuard]},
+
+    {path:'user/update',component:UpdateUserComponent}
 ];

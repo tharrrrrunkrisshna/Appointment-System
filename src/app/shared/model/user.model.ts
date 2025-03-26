@@ -10,6 +10,7 @@ export class userLogin{
     email?:string;
     password?:string;
 }
+
 export class UserData{
     userID?:string;
     name?:string;
