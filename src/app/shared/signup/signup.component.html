@@ -1,3 +1,5 @@
+<div class="header">Healthcare Appointment System</div>
+<div class="hero">
 <div class="signup-container">
     <div class="signup-card">
       <h2>Create an Account</h2>
@@ -15,12 +17,22 @@
             Name is required.
           </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="signUpRole">Role</label>
           <select class="form-control" id="signUpRole" formControlName="role" required>
             <option value="Doctor">Doctor</option>
             <option value="Patient">Patient</option>
           </select>
+        </div> -->
+        <div class="form-group">
+          <label for="signUpRole">Role</label>
+          <div aria-required="true">
+            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" value="Doctor" formControlName="role" autocomplete="off">
+            <label class="btn btn-outline-primary ml-4 mr-3" for="success-outlined">Doctor</label>
+ 
+            <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" value="Patient" formControlName="role" autocomplete="off">
+            <label class="btn btn-outline-primary" for="danger-outlined">Patient</label>
+          </div>
         </div>
         <div class="form-group">
           <label for="signUpEmail">Email Address</label>
@@ -64,7 +76,8 @@
         <button type="submit" class="btn-signup" [disabled]="signupForm.invalid">Sign Up</button>
       </form>
       <div class="login-link">
-        Already have an account? <a href="#" (click)="goToLogin()">Log in</a>
+        <p>Already have an account?</p> <a (click)="goToLogin()">Log in</a>
       </div>
     </div>
   </div>
+</div>

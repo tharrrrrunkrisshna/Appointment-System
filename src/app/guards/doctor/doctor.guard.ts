@@ -7,6 +7,8 @@ export const doctorGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
     alert('Access Denied: Doctors only!');
+    window.history.back();
     return false; 
   }
 };
+
