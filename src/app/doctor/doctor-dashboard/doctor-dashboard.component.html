@@ -24,13 +24,36 @@
           <h2>Today's Appointments</h2>
           <ul>
             <li *ngFor="let appointment of appointments">
-              {{ appointment.timeSlot | date:'shortTime' }} - Patient ID: {{ appointment.patientID }}
+              {{appointment.timeSlot | date:'shortDate' }} - {{ appointment.timeSlot | date:'shortTime' }} - Patient ID: {{ appointment.patientID }}
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="pastappointments.length > 0">
+          <h2>Past Appointments</h2>
+          <ul>
+            <li *ngFor="let pastappointments of pastappointments">
+              {{ pastappointments.timeSlot | date:'shortTime' }} - Patient ID: {{ pastappointments.patientID }}
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="futureappointments.length > 0">
+          <h2>Future Appointments</h2>
+          <ul>
+            <li *ngFor="let futureappointments of futureappointments">
+              {{futureappointments.timeSlot | date}} -- {{ futureappointments.timeSlot | date:'shortTime' }} -- Patient ID: {{ futureappointments.patientID }}
             </li>
           </ul>
         </div>
 
         <div *ngIf="appointments.length === 0">
           <p>No appointments for today.</p>
+        </div>
+        <hr>
+        <div *ngIf="pastappointments.length === 0">
+          <p>No Past appointments.</p>
+        </div><hr>
+        <div *ngIf="futureappointments.length === 0">
+          <p>No Future appointments.</p>
         </div>
       </div>
     </div>

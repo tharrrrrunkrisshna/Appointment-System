@@ -1,11 +1,12 @@
 <div class="container">
-    <h2 class="my-4">Appointments</h2>
+    <h2 class="my-4">Your Appointments</h2>
     <table class="table table-striped appointments-table">
       <thead class="thead-dark">
         <tr>
           <th>Appointment ID</th>
           <th>Patient ID</th>
           <th>Doctor ID</th>
+          <th>Date</th>
           <th>Time Slot</th>
           <th>Status</th>
           <th>Actions</th>
@@ -16,7 +17,8 @@
           <td>{{ appointment.appointmentID }}</td>
           <td>{{ appointment.patientID }}</td>
           <td>{{ appointment.doctorID }}</td>
-          <td>{{ appointment.timeSlot }}</td>
+          <td>{{ appointment.timeSlot |date}}</td>
+          <td>{{ appointment.timeSlot |date:'shortTime'}}</td>
           <td>{{ appointment.status }}</td>
           <td>
             <button class="btn btn-info btn-sm" (click)="viewConsultation(appointment)">View</button>

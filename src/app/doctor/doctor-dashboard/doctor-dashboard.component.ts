@@ -17,6 +17,8 @@ import { NavbarComponent } from "../../shared/navbar/navbar.component";
 export class DoctorDashboardComponent implements OnInit {
   user: UserData={};
   appointments: any[] = [];
+  pastappointments: any[] = [];
+  futureappointments: any[] = [];
 
   constructor(private router: Router,private appointmentService: AppointmentService) {
     const storedUser = localStorage.getItem('loggedInUser');
@@ -51,8 +53,33 @@ fetchTodaysAppointments(): void {
   );
 }
 
+fetchPastAppointments(): void {
+  this.appointmentService.getAppointmentsByDoctor(Number(this.user.userID)).subscribe(
+    (data) => {
+      const today = new Date().toISOString().split('T')[0];
+      this.pastappointments = data.filter(appointment => appointment.timeSlot < today);
+    },
+    (error) => {
+      console.error('Error fetching appointments', error);
+    }
+  );
+}
+fetchFutureAppointments(): void {
+  this.appointmentService.getAppointmentsByDoctor(Number(this.user.userID)).subscribe(
+    (data) => {
+      const today = new Date().toISOString().split('T')[0];
+      this.futureappointments = data.filter(appointment => appointment.timeSlot > today);
+    },
+    (error) => {
+      console.error('Error fetching appointments', error);
+    }
+  );
+}
+
 ngOnInit(): void {
   this.fetchTodaysAppointments();
+  this.fetchPastAppointments();
+  this.fetchFutureAppointments();
 }
 
 gotoEditAvailabilityPage(){

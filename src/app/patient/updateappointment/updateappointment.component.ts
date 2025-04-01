@@ -31,22 +31,22 @@ export class UpdateappointmentComponent implements OnInit {
   }
 
   fetchAvailability() {
-    const today = new Date(); // Get today's date
-    const currentTime = today.getHours() + ':' + today.getMinutes(); // Get current time in HH:MM format
+    const today = new Date(); 
+    const currentTime = today.getHours() + ':' + today.getMinutes(); 
  
     this.availabilityService.getAvailabilityByDoctor(this.appointment.doctorID).subscribe(
       (data) => {
         this.availabilities = data.map(availability => {
           const availabilityDate = new Date(availability.date);
           if (availabilityDate > today) {
-            // If the date is in the future, keep all timeslots
+            
             return availability;
           } else if (availabilityDate.toDateString() === today.toDateString()) {
-            // If the date is today, filter timeslots based on current time
+            
             availability.timeSlots = availability.timeSlots.filter(timeSlot => timeSlot > currentTime);
             return availability;
           }
-          // If the date is in the past, exclude the availability
+          
           return null;
         }).filter(availability => availability !== null);
         console.log(this.availabilities);
@@ -60,7 +60,7 @@ export class UpdateappointmentComponent implements OnInit {
   selectDate(availability: any) {
     this.selectedDate = availability.date;
     this.selectedTimeSlots = availability.timeSlots;
-    this.selectedTime = ''; // Reset selected time
+    this.selectedTime = ''; 
   }
 
   selectTime(time: string) {

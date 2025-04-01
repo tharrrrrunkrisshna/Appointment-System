@@ -49,7 +49,7 @@ export class EditAvailabilityComponent implements OnInit {
 
   /** Selects availability for editing */
   selectAvailability(availability: any) {
-    this.selectedAvailability = { ...availability }; // Clone to avoid modifying directly
+    this.selectedAvailability = availability;
   }
 
   /** Toggles time slot selection */
@@ -64,7 +64,6 @@ export class EditAvailabilityComponent implements OnInit {
     }
   }
 
-  /** Converts 12-hour format (AM/PM) to 24-hour format */
   convertTo24HourFormat(time: string): string {
     let [hour, minutePart] = time.split(':');
     let minute = minutePart.substring(0, 2);
@@ -81,7 +80,7 @@ export class EditAvailabilityComponent implements OnInit {
     return `${hourNum.toString().padStart(2, '0')}:${minute}`;
   }
 
-  /** Updates the selected availability */
+
   updateAvailability() {
     this.availabilityService.updateAvailability(this.selectedAvailability.availabilityID, this.selectedAvailability)
       .subscribe(
@@ -97,7 +96,7 @@ export class EditAvailabilityComponent implements OnInit {
       );
   }
 
-  /** Deletes an availability slot */
+
   deleteAvailability(id: number) {
     if (confirm('Are you sure you want to delete this availability?')) {
       this.availabilityService.deleteAvailability(id).subscribe(

@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    const credentials = this.loginForm.value as userLogin;
+    const credentials = this.loginForm.value as userLogin;   
     this.service.loginUser(credentials).subscribe(
       data => {
         localStorage.setItem("loggedInUser", JSON.stringify(data));

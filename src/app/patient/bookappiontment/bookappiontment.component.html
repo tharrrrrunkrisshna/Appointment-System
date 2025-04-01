@@ -12,7 +12,7 @@
     <p><strong>Email:</strong> {{ user.email }}</p>
   </div>
 
-  <!-- Show Available Dates -->
+ 
   <div class="dates-container">
     <button *ngFor="let availability of availabilities" 
             (click)="selectDate(availability)" 
@@ -21,7 +21,7 @@
     </button>
   </div>
 
-  <!-- Show Available Time Slots -->
+  
   <div *ngIf="selectedDate" class="time-slots-container">
     <h3>Available Time Slots for {{ selectedDate }}</h3>
     <div class="time-slots">
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  <!-- Book Appointment Button -->
+
   <button (click)="bookAppointment()" class="btn-book" 
           [disabled]="!selectedTime">
     Book Appointment
